@@ -13,7 +13,7 @@ public class ProducerFastStart {
 
     private static final String brokerList = "localhost:9092";
 
-    private static final String topic = "heima";
+    private static final String topic = "cier";
 
     public static void main(String[] args) {
         Properties properties = new Properties();
