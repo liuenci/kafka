@@ -23,14 +23,14 @@ public class ProducerFastStart {
         // 设置重试次数
         properties.put(ProducerConfig.RETRIES_CONFIG, 10);
         // 设置值序列化器
-//        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");\
+//        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         // 设置集群地址
 //        properties.put("bootstrap.servers", brokerList);
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerList);
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "kafka-xuexi", "hello,encier");
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "kafka-xuexi", "hello,xxx");
         Future<RecordMetadata> metadataFuture = producer.send(record);
         producer.close();
     }
