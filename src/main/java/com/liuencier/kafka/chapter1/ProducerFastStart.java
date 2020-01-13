@@ -30,7 +30,7 @@ public class ProducerFastStart {
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerList);
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "kafka-demo", "hello,encier");
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "kafka-xuexi", "hello,encier");
         Future<RecordMetadata> metadataFuture = producer.send(record);
         producer.close();
     }
