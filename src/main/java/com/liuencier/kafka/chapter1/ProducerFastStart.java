@@ -1,12 +1,11 @@
 package com.liuencier.kafka.chapter1;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
+import com.google.gson.internal.$Gson$Preconditions;
+import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class ProducerFastStart {
@@ -30,8 +29,27 @@ public class ProducerFastStart {
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerList);
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "kafka-xuexi", "hello,xxx");
-        Future<RecordMetadata> metadataFuture = producer.send(record);
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "kafka", "hello,cier");
+//        Future<RecordMetadata> metadataFuture = producer.send(record);
+        try {
+//            RecordMetadata recordMetadata = metadataFuture.get();
+//            System.out.println("topic:"+recordMetadata.topic());
+//            System.out.println("partition:"+recordMetadata.partition());
+//            System.out.println("offset:"+recordMetadata.offset());
+
+            producer.send(record, new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                    if (e == null) {
+                        System.out.println("topic:"+recordMetadata.topic());
+                        System.out.println("partition:"+recordMetadata.partition());
+                        System.out.println("offset:"+recordMetadata.offset());
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         producer.close();
     }
 }
