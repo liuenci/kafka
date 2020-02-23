@@ -63,7 +63,7 @@ public class KafkaProducerAnalysis {
 //        KafkaProducer<String, String> producer = new KafkaProducer<>(props,
 //                new StringSerializer(), new StringSerializer());
         //生成 ProducerRecord 对象，并制定 Topic，key 以及 value
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "Kafka-demo-001", "hell");
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "Kafka-demo-001", "卢本伟牛逼！！！！！");
         try {
             // 1、发送消息
             producer.send(record);
