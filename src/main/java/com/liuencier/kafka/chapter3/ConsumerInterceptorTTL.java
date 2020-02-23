@@ -22,9 +22,8 @@ public class ConsumerInterceptorTTL implements ConsumerInterceptor<String, Strin
             List<ConsumerRecord<String, String>> records = consumerRecords.records(topicPartition);
             List<ConsumerRecord<String, String>> newTpRecords = new ArrayList<>();
             records.forEach(record -> {
-                newTpRecords.add(record);
                 if (currentTimeMillis - record.timestamp() < EXPIRE_INTERVAL) {
-
+                    newTpRecords.add(record);
                 }
             });
             if (!newTpRecords.isEmpty()) {

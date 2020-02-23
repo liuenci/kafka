@@ -48,7 +48,7 @@ public class KafkaConsumerAnalysis {
 
         try {
             while (isRunning.get()) {
-                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(10));
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
                 for (ConsumerRecord<String, String> record : records) {
                     System.out.println("topic = " + record.topic() + ", partition = " + record.partition() + ", offset = " + record.offset());
                     System.out.println("key = " + record.key() + ", value = " + record.value());
