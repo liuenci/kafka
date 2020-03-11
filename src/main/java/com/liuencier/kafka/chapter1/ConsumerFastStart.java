@@ -17,7 +17,7 @@ public class ConsumerFastStart {
 
     private static final String topic = "cier";
 
-    private static final String groupId = "group.demo";
+    private static final String groupId = "ccier";
 
     public static void main(String[] args) {
         Properties properties = new Properties();
@@ -41,7 +41,8 @@ public class ConsumerFastStart {
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
             for (ConsumerRecord<String, String> record : records) {
-                log.info(record.value());
+                log.info("消费信息:{}", record.value());
+                consumer.commitSync();
             }
         }
     }
