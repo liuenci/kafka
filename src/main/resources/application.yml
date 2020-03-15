@@ -2,6 +2,6 @@ spring:
   kafka:
     producer:
       bootstrap-servers: localhost:9092
+      transaction-id-prefix: kafka_tx.
     consumer:
       bootstrap-servers: localhost:9092
-

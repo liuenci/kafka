@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +32,29 @@ public class KafkaController {
 
     @GetMapping("/send/{input}")
     public String sendToKafka(@PathVariable("input") String input){
-        kafkaTemplate.send(topic, input);
+//        kafkaTemplate.send(topic, input);
+        kafkaTemplate.executeInTransaction(t -> {
+            t.send(topic, input);
+            if ("error".equals(input)) {
+                throw new RuntimeException("input is error");
+            }
+            t.send(topic, input + " anthor");
+            return true;
+        });
         return "success";
     }
+
+    @GetMapping("/send2/{input}")
+    @Transactional(rollbackFor = Exception.class)
+    public String send2ToKafka(@PathVariable("input") String input){
+        kafkaTemplate.send(topic, input);
+        if ("error".equals(input)) {
+            throw new RuntimeException("input is error");
+        }
+        kafkaTemplate.send(topic, input + " anthor");
+        return "success";
+    }
+
 
     @KafkaListener(id = "", topics = topic, groupId = "group.cier")
     public void consumer(String input){
